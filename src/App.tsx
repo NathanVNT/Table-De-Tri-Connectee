@@ -6,9 +6,9 @@ import {DashboardPanel} from "./pages/DashboardPanel"
 import PageNotFound from "./pages/page-not-found";
 import Nav from "./components/Nav";
 import Login from "./pages/Login";
-import TestApi from "./components/TestApi";
 import {Dashboard} from "@mui/icons-material";
 import {UserDashboard} from "./pages/UserDashboard";
+import { TestApi } from './components/TestApi';
 export const App = () => {
 
       return (
