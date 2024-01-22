@@ -8,8 +8,8 @@ export const MuiLayout = () => {
 
     return(
         <Stack padding={5} spacing={4} direction={'row'} useFlexGap flexWrap={'wrap'}
-               justifyContent="space-evenly"
-               alignItems="flex-start">
+               justifyContent="center"
+               alignItems="center">
             <Card sx={{ maxWidth: 500 }}>
                     <CardMedia
                         component="img"

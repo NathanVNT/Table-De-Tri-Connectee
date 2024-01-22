@@ -108,7 +108,14 @@ function Nav() {
                         >
                             {pages.map((page) => (
                                     <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                        <Typography textAlign="center" component={"a"}>{page}</Typography>
+                                        <Button
+                                            key={page}
+                                            onClick={handleCloseNavMenu}
+                                            href={"/dashboard"}
+                                            sx={{my: 2, color: 'black', display: 'block'}}
+                                        >
+                                            {page}
+                                        </Button>
                                     </MenuItem>
                             ))}
                         </Menu>
