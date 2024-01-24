@@ -10,13 +10,8 @@ export const MuiLayout = () => {
         <Stack padding={5} spacing={4} direction={'row'} useFlexGap flexWrap={'wrap'}
                justifyContent="center"
                alignItems="center">
-            <Card sx={{ maxWidth: 500 }}>
-                    <CardMedia
-                        component="img"
-                        height="240"
-                        image={card_img}
-                        alt="green iguana"
-                    />
+            <Card sx={{ width: "90%"}}>
+
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                             Bienvenue sur le site de la table de tri

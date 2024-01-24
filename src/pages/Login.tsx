@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 
 export default function Login() {
+    let message:String = "";
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -23,9 +24,10 @@ export default function Login() {
         const password = formData.get('password') as string;
 
         const data = { login, password };
-        console.log(data)
+        console.log(data);
+
         try {
-            const url = 'http://10.0.0.156:3000/auth'; // Replace with your API endpoint
+            const url = 'http://10.0.0.156:3000/auth';
 
             const response = await fetch(url, {
                 method: 'POST',
@@ -36,8 +38,16 @@ export default function Login() {
             });
 
             if (response.ok) {
-                console.log('Données envoyées avec succès !');
-                // Handle success, e.g., redirect to another page
+                const responseData = await response.json();
+
+                if (responseData.success) {
+                    console.log('Connexion réussie !');
+                    message = responseData.data
+                    // Handle success, e.g., redirect to another page
+                } else {
+                    console.error('Échec de la connexion.');
+                    // Handle failure, e.g., display an error message
+                }
             } else {
                 console.error('Échec de l\'envoi des données.');
                 // Handle failure, e.g., display an error message
@@ -47,6 +57,7 @@ export default function Login() {
             // Handle other errors
         }
     };
+
 
     return (
         <Stack padding={5} spacing={4} direction={'row'} useFlexGap flexWrap={'wrap'} justifyContent="space-evenly" alignItems="flex-start">
@@ -90,6 +101,7 @@ export default function Login() {
                             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                                 Connexion
                             </Button>
+                            <h1>{message}</h1>
                         </Box>
                     </Box>
                 </Container>
