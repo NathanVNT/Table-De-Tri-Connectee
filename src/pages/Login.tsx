@@ -13,7 +13,7 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import {redirect} from "react-router-dom";
+import {Navigate, redirect, Route} from "react-router-dom";
 
 export default function Login() {
     useEffect(() => {
@@ -41,11 +41,13 @@ export default function Login() {
                 body: JSON.stringify(data),
             });
             const responseData = await response.json();
-            if (responseData == true){
-                redirect('/user')
+
+            if (responseData != true){
+                alert("Echec de connexion")
             }
             else {
-                alert("Echec de connexion")
+                window.location.replace('/user')
+
             }
             console.log(responseData)
         } catch (error) {
