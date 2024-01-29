@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Avatar,
     Box,
@@ -13,8 +13,12 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
+import {redirect} from "react-router-dom";
 
 export default function Login() {
+    useEffect(() => {
+        document.title = "Se connecter - Table de Tri"
+    }, [])
     let message:String = "";
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -27,7 +31,7 @@ export default function Login() {
         console.log(data);
 
         try {
-            const url = 'http://10.0.0.156:3000/auth';
+            const url = 'http://10.0.0.156:3000/login';
 
             const response = await fetch(url, {
                 method: 'POST',
@@ -36,22 +40,14 @@ export default function Login() {
                 },
                 body: JSON.stringify(data),
             });
-
-            if (response.ok) {
-                const responseData = await response.json();
-
-                if (responseData.success) {
-                    console.log('Connexion réussie !');
-                    message = responseData.data
-                    // Handle success, e.g., redirect to another page
-                } else {
-                    console.error('Échec de la connexion.');
-                    // Handle failure, e.g., display an error message
-                }
-            } else {
-                console.error('Échec de l\'envoi des données.');
-                // Handle failure, e.g., display an error message
+            const responseData = await response.json();
+            if (responseData == true){
+                redirect('/user')
             }
+            else {
+                alert("Echec de connexion")
+            }
+            console.log(responseData)
         } catch (error) {
             console.error('Erreur lors de l\'envoi des données:', error);
             // Handle other errors

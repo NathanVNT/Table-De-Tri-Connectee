@@ -15,7 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {App} from "../App";
 
 const pages=[''];
-const link:String[] = ['/dashboard']
+const link:String[] = ['/dashboard', '/logout']
 
 const connected = ['Dashboard', 'Logout']
 const notconnect = ['Login']

@@ -6,14 +6,17 @@ import PageNotFound from "./pages/page-not-found";
 import Nav from "./components/Nav";
 import Login from "./pages/Login";
 import {UserDashboard} from "./pages/UserDashboard";
-import { TestApi } from './components/TestApi';
+import { TestApi } from './pages/TestApi';
 import Teapot from './pages/Teapot';
+import Jscience from "./pages/jscience";
 
 export const App = () => {
-    let auth = true
+    let auth = false
+    // @ts-ignore
     return (
           <>
           <Nav auth ={auth}/>
+              <h1>{}</h1>
           <div className="App">
                 <Routes>
                     <Route path={'/'} element={<Home/>}/>
@@ -22,6 +25,7 @@ export const App = () => {
                     <Route path={"/login"} element={<Login/>}/>
                     <Route path={"/testapi"} element={<TestApi/>}/>
                     <Route path={"/user"} element={<UserDashboard/>}/>
+                    <Route path={"/jeanscience"} element={<Jscience/>}/>
                 </Routes>
           </div>
 

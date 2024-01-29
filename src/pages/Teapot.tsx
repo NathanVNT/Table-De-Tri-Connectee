@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Link } from 'react-router-dom';
 
-const Teapot = () => (
-    <div className="center">
+function Teapot() {
+    useEffect(() => {
+        document.title = "Teapot - Table de Tri"
+    }, [])
+    return (
+        <div className="center">
         <p></p>
         <h1>Hey, je suis une théière!</h1>
         <img src={require('../images/erreur418.jpg')}/>
@@ -10,7 +14,8 @@ const Teapot = () => (
         <Link to="/" className="waves-effect waves-teal btn-flat">
             Retourner à l'accueil
         </Link>
-    </div>
-);
+    </div>)
+
+}
 
 export default Teapot;

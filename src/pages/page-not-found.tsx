@@ -1,7 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Link } from 'react-router-dom';
 
-const PageNotFound = () => (
+function PageNotFound(){
+    useEffect(() => {
+        document.title = "404 - Table de Tri"
+    }, [])
+return (
     <div className="center">
         <p></p>
         <img src={require('../images/erreur404.png')} alt="Pas non trouvée"/>
@@ -10,6 +14,8 @@ const PageNotFound = () => (
             Retourner à l'accueil
         </Link>
     </div>
-);
+)
+
+}
 
 export default PageNotFound;

@@ -11,9 +11,9 @@ export default function Pie_Chart() {
             series={[
                 {
                     data: [
-                        { id: 0, value: 10, label: 'series A' },
-                        { id: 1, value: 15, label: 'series B' },
-                        { id: 2, value: 20, label: 'series C' },
+                        { id: 0, value: 10, label: 'Pain' },
+                        { id: 1, value: 15, label: 'Alimentaire' },
+                        { id: 2, value: 20, label: 'Emballage' },
                     ],
                 },
             ]}
