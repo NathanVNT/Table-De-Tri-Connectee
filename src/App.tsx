@@ -4,11 +4,11 @@ import {Route, Routes} from "react-router-dom";
 import {Home} from "./pages/Home";
 import PageNotFound from "./pages/page-not-found";
 import Nav from "./components/Nav";
-import Login from "./pages/Login";
 import {UserDashboard} from "./pages/UserDashboard";
 import { TestApi } from './pages/TestApi';
 import Teapot from './pages/Teapot';
-import Jscience from "./pages/jscience";
+import Jscience from './pages/Jscience';
+import Login from './pages/Login';
 
 export const App = () => {
     let auth = false
@@ -18,7 +18,8 @@ export const App = () => {
           <Nav auth ={auth}/>
               <h1>{}</h1>
           <div className="App">
-                <Routes>
+
+              <Routes>
                     <Route path={'/'} element={<Home/>}/>
                     <Route path={"/418"} element={<Teapot/>}/>
                     <Route path={"/*"} element={<PageNotFound/>}/>
@@ -27,6 +28,7 @@ export const App = () => {
                     <Route path={"/user"} element={<UserDashboard/>}/>
                     <Route path={"/jeanscience"} element={<Jscience/>}/>
                 </Routes>
+
           </div>
 
           </>

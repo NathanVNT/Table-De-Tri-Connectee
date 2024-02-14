@@ -4,12 +4,21 @@ import Bar_Chart from "../components/Bar_Chart";
 import Line_Chart from "../components/Line_Chart";
 import Stats_Brut from "../components/Stats_Brut";
 import React, {useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 
 export const UserDashboard = () => {
-    let user = "Victor"
+    let token= localStorage.getItem("token")
+    let user = ""
+    if (token == null || token==""){
+        user = "Vide"
+    }
+    else {
+        let user = "Victor"
+    }
     useEffect(() => {
         document.title = `Dashboard ${user} - Table de Tri`
     }, [])
+    console.log(localStorage.getItem("token"))
   return(
       <>
           <Stack padding={5} spacing={4} direction={'row'} useFlexGap flexWrap={'wrap'}
@@ -22,7 +31,7 @@ export const UserDashboard = () => {
                           Bienvenue {user}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                          Ci-dessous, vous pourrez trouvez toutes vos données concernant la table de tri.
+                          Ci-dessous, vous pourrez trouver toutes vos données concernant la table de tri.
                       </Typography>
                   </CardContent>
               </Card>

@@ -1,25 +1,28 @@
-import React, {useEffect, useState} from 'react';
-import {
-    Avatar,
-    Box,
-    Button,
-    Card,
-    CssBaseline,
-    Container,
-    FormControlLabel,
-    Grid,
-    Link,
-    Stack,
-    TextField,
-    Typography,
-} from "@mui/material";
-import {Navigate, redirect, Route} from "react-router-dom";
+// Login.tsx
+import React, { useEffect, useState } from 'react';
+import {Avatar, Box, Button, Card, Container, Stack, TextField, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+
+interface InterfaceLogin {
+    success?: boolean;
+    token?: string;
+    message: string;
+}
 
 export default function Login() {
+    const navigate = useNavigate();
+    const [loginState, setLoginState] = useState<InterfaceLogin | null>(null);
+
     useEffect(() => {
-        document.title = "Se connecter - Table de Tri"
-    }, [])
-    let message:String = "";
+        document.title = 'Se connecter - Table de Tri';
+        if (loginState && loginState.success) {
+            navigate('/user');
+
+        } else if (loginState && !loginState.success) {
+            alert('Echec de connexion');
+        }
+    }, [loginState, navigate]);
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -28,7 +31,6 @@ export default function Login() {
         const password = formData.get('password') as string;
 
         const data = { login, password };
-        console.log(data);
 
         try {
             const url = 'http://10.0.0.156:3000/login';
@@ -40,28 +42,19 @@ export default function Login() {
                 },
                 body: JSON.stringify(data),
             });
+
             const responseData = await response.json();
 
-            if (responseData != true){
-                alert("Echec de connexion")
-            }
-            else {
-                window.location.replace('/user')
-
-            }
-            console.log(responseData)
+            setLoginState(responseData);
         } catch (error) {
             console.error('Erreur lors de l\'envoi des données:', error);
-            // Handle other errors
         }
     };
-
 
     return (
         <Stack padding={5} spacing={4} direction={'row'} useFlexGap flexWrap={'wrap'} justifyContent="space-evenly" alignItems="flex-start">
             <Card sx={{ maxWidth: 345 }}>
                 <Container component="main" maxWidth="xs">
-                    <CssBaseline />
                     <Box
                         sx={{
                             marginTop: 8,
@@ -99,7 +92,7 @@ export default function Login() {
                             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                                 Connexion
                             </Button>
-                            <h1>{message}</h1>
+                            <p>{loginState?.message}</p>
                         </Box>
                     </Box>
                 </Container>
