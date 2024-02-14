@@ -17,6 +17,7 @@ export default function Login() {
         document.title = 'Se connecter - Table de Tri';
         if (loginState && loginState.success) {
             navigate('/user');
+            localStorage.setItem("token", loginState.token || "")
 
         } else if (loginState && !loginState.success) {
             alert('Echec de connexion');
@@ -33,7 +34,7 @@ export default function Login() {
         const data = { login, password };
 
         try {
-            const url = 'http://10.0.0.156:3000/login';
+            const url = 'http://localhost:3000/login';
 
             const response = await fetch(url, {
                 method: 'POST',

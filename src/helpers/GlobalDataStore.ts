@@ -33,7 +33,6 @@ interface DataMoisStore {
     moisData: DataMois[];
     setMoisData: (data: DataMois[]) => void;
 }
-
 export const useMoisDataStore = create<DataMoisStore>((set) => ({
     moisData: [],
     setMoisData: (data) => set({ moisData: data }),

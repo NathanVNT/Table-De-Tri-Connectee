@@ -27,7 +27,7 @@ export const Home = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://10.0.0.156:3000/api');
+                const response = await fetch('http://localhost:3000/api');
                 if (response.ok) {
                     const jsonData = await response.json();
 
