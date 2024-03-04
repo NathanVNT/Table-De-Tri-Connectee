@@ -3,56 +3,56 @@ import Pie_Chart from "../components/Pie_Chart";
 import Bar_Chart from "../components/Bar_Chart";
 import Line_Chart from "../components/Line_Chart";
 import Stats_Brut from "../components/Stats_Brut";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import config from "../helpers/ConfAPI";
 
+interface InterfaceUser {
+    user?: string;
+}
+
 export const UserDashboard = () => {
-    const token = localStorage.getItem("token");
-    let user = "";
-
-    if (token == null || token === "") {
-        user = "Vide";
-    } else {
-        // Envoyer le token à votre API
-
-        //user = sendTokenToAPI(token);
-    }
+    const [user, setUser] = useState<InterfaceUser | null>(null);
 
     useEffect(() => {
-        document.title = `Dashboard ${user} - Table de Tri`;
-    }, []);
+        const token = localStorage.getItem("token");
 
-    console.log(localStorage.getItem("token"));
+        async function sendTokenToAPI(token: string) {
+            try {
+                // URL de votre API
+                const apiUrl = `${config.api.ip}:${config.api.port}/`;
 
-    async function sendTokenToAPI(token:string) {
-        try {
-            // URL de votre API
-            const apiUrl = `${config.api.ip}:${config.api.port}/`;
+                // Données à envoyer à l'API
+                const data = {
+                    token: token,
+                };
 
-            // Données à envoyer à l'API
-            const data = {
-                token: token,
-            };
+                const response = await fetch(apiUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                });
 
-            const response = await fetch(apiUrl, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la requête');
+                }
 
-            if (!response.ok) {
-                throw new Error('Erreur lors de la requête');
+                const responseData = await response.json();
+                setUser({ user: responseData.user.toString() });
+                console.log(responseData.user); // Cela affichera la réponse de votre API dans la console du navigateur
+            } catch (error) {
+                console.error('Erreur:', error);
             }
-
-            const responseData = await response.json();
-            user = responseData.user;
-            console.log(responseData.user); // Cela affichera la réponse de votre API dans la console du navigateur
-        } catch (error) {
-            console.error('Erreur:', error);
         }
-    }
+
+        if (token && token !== "") {
+            // Envoyer le token à votre API
+            sendTokenToAPI(token);
+        }
+
+        document.title = `Dashboard ${user?.user} - Table de Tri`;
+    }, [user]);
 
     return (
         <>
@@ -68,7 +68,7 @@ export const UserDashboard = () => {
                 <Card sx={{ width: "90%" }}>
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
-                            Bienvenue {user}
+                            Bienvenue {user?.user}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                             Ci-dessous, vous pourrez trouver toutes vos données concernant la
