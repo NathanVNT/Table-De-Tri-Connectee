@@ -13,9 +13,9 @@ export const UserDashboard = () => {
     if (token == null || token === "") {
         user = "Vide";
     } else {
-        user = "Victor";
         // Envoyer le token à votre API
-        sendTokenToAPI(token);
+
+        //user = sendTokenToAPI(token);
     }
 
     useEffect(() => {
@@ -45,10 +45,10 @@ export const UserDashboard = () => {
             if (!response.ok) {
                 throw new Error('Erreur lors de la requête');
             }
-            console.log(data)
 
             const responseData = await response.json();
-            console.log(responseData); // Cela affichera la réponse de votre API dans la console du navigateur
+            user = responseData.user;
+            console.log(responseData.user); // Cela affichera la réponse de votre API dans la console du navigateur
         } catch (error) {
             console.error('Erreur:', error);
         }
