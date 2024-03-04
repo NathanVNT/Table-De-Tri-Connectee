@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import {Avatar, Box, Button, Card, Container, Stack, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import config from "../helpers/ConfAPI";
 
 interface InterfaceLogin {
     success?: boolean;
@@ -34,7 +35,7 @@ export default function Login() {
         const data = { login, password };
 
         try {
-            const url = "${config.api.ip}:${config.api.port}/login";
+            const url = `${config.api.ip}:${config.api.port}/login`;
 
             const response = await fetch(url, {
                 method: 'POST',

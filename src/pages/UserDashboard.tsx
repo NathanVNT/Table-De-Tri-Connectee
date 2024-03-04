@@ -3,11 +3,10 @@ import Pie_Chart from "../components/Pie_Chart";
 import Bar_Chart from "../components/Bar_Chart";
 import Line_Chart from "../components/Line_Chart";
 import Stats_Brut from "../components/Stats_Brut";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import config from "../helpers/ConfAPI";
 
 export const UserDashboard = () => {
-    const navigate = useNavigate();
     const token = localStorage.getItem("token");
     let user = "";
 
@@ -25,31 +24,36 @@ export const UserDashboard = () => {
 
     console.log(localStorage.getItem("token"));
 
-    function sendTokenToAPI(token:string) {
-        // URL de votre API
-        const apiUrl = "${config.api.ip}:${config.api.port}/";
+    async function sendTokenToAPI(token:string) {
+        try {
+            // URL de votre API
+            const apiUrl = `${config.api.ip}:${config.api.port}/`;
 
-        // Données à envoyer à l'API
-        const data = {
-            token: token,
-        };
+            // Données à envoyer à l'API
+            const data = {
+                token: token,
+            };
 
-        fetch(apiUrl, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        })
-            .then((response) => response.json())
-            .then((responseData) => {
-                // Traitement de la réponse de l'API si nécessaire
-                console.log("Réponse de l'API :", responseData);
-            })
-            .catch((error) => {
-                console.error("Erreur lors de l'envoi du token à l'API :", error);
+            const response = await fetch(apiUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
             });
+
+            if (!response.ok) {
+                throw new Error('Erreur lors de la requête');
+            }
+            console.log(data)
+
+            const responseData = await response.json();
+            console.log(responseData); // Cela affichera la réponse de votre API dans la console du navigateur
+        } catch (error) {
+            console.error('Erreur:', error);
+        }
     }
+
     return (
         <>
             <Stack
