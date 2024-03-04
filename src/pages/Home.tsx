@@ -6,6 +6,7 @@ import Line_Chart from "../components/Line_Chart";
 import Stats_Brut from "../components/Stats_Brut";
 import { MuiLayout } from "../components/MuiLayout";
 import {useDechetsStore, useMoisDataStore, useSemaineDataStore, useTotalBrut} from "../helpers/GlobalDataStore";
+import config from "../helpers/ConfAPI";
 
 interface SemaineActuelleItem {
     jour: string;
@@ -27,7 +28,7 @@ export const Home = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:3000/api');
+                const response = await fetch(`${config.api.ip}:${config.api.port}/api`);
                 if (response.ok) {
                     const jsonData = await response.json();
 

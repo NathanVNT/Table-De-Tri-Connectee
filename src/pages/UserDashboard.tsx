@@ -27,7 +27,7 @@ export const UserDashboard = () => {
 
     function sendTokenToAPI(token:string) {
         // URL de votre API
-        const apiUrl = "http://localhost:3000/";
+        const apiUrl = "${config.api.ip}:${config.api.port}/";
 
         // Données à envoyer à l'API
         const data = {

@@ -34,7 +34,7 @@ export default function Login() {
         const data = { login, password };
 
         try {
-            const url = 'http://localhost:3000/login';
+            const url = "${config.api.ip}:${config.api.port}/login";
 
             const response = await fetch(url, {
                 method: 'POST',
