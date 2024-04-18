@@ -2,10 +2,10 @@ import * as React from 'react';
 import { PieChart } from '@mui/x-charts/PieChart';
 import {Card, CardContent, CardHeader, colors, Stack} from "@mui/material";
 import {useState} from "react";
-import {useDechetsStore, useDechetsUtilisateurStore} from "../helpers/GlobalDataStore";
+import {useDechetsStore} from "../helpers/GlobalDataStore";
 
-export default function Pie_Chart() {
-    const { dechetsData, setDechetsData } = useDechetsUtilisateurStore();
+export default function Pie_Chart_General() {
+    const { dechetsData, setDechetsData } = useDechetsStore();
 
     return (
         <Stack>
@@ -18,7 +18,7 @@ export default function Pie_Chart() {
                     data: [
                         { id: 0, value: dechetsData?.pain ||0, label: 'Pain' },
                         { id: 1, value: dechetsData?.alimentaire||0, label: 'Alimentaire' },
-                        { id: 2, value: dechetsData?.emballage||0, label: 'Emballage'},
+                        { id: 2, value: dechetsData?.emballage||0, label: 'Emballage' },
                     ],
                 },
             ]}
@@ -26,7 +26,6 @@ export default function Pie_Chart() {
             height={200}
         />
             </CardContent>
-
         </Card>
         </Stack>
     );

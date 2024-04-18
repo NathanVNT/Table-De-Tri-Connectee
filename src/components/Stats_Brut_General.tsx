@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { PieChart } from '@mui/x-charts/PieChart';
 import {Card, CardContent, CardHeader, colors, Stack} from "@mui/material";
-import {useTotalBrut, useTotalUtilisateurBrut} from "../helpers/GlobalDataStore";
-export default function Stats_Brut(){
-    const { totalBrutData, setTotalBrut} = useTotalUtilisateurBrut();
+import {useTotalBrut} from "../helpers/GlobalDataStore";
+export default function Stats_Brut_General(){
+    const { totalBrutData, setTotalBrut} = useTotalBrut();
     return (
         <Stack>
             <Card sx={{ width: 600,height: 350, margin: 2 }}>

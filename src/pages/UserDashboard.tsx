@@ -1,91 +1,109 @@
-import { Card, CardContent, Stack, Typography } from "@mui/material";
-import Pie_Chart from "../components/Pie_Chart";
-import Bar_Chart from "../components/Bar_Chart";
-import Line_Chart from "../components/Line_Chart";
-import Stats_Brut from "../components/Stats_Brut";
-import React, { useEffect, useState } from "react";
-import config from "../helpers/ConfAPI";
+// Dans UserDashboard.tsx
 
-interface InterfaceUser {
-    user?: string;
+import React, { useEffect } from 'react';
+import { Stack } from '@mui/material';
+import config from '../helpers/ConfAPI';
+import UserDashboardCard from '../components/UserDashboardCard';
+import {
+    useDechetsUtilisateurStore,
+    useMoisDataUtilisateurStore,
+    useSemaineDataUtilisateurStore,
+    useTokenStore,
+    useTotalUtilisateurBrut,
+    useUserStore
+} from '../helpers/GlobalDataStore';
+import Pie_Chart from '../components/Pie_Chart';
+import Line_Chart from '../components/Line_Chart';
+import Bar_Chart from '../components/Bar_Chart';
+import Stats_Brut from '../components/Stats_Brut';
+
+interface Semaine_Utilisateur {
+    jour: string;
+    totalJournalier: number;
+}
+export interface User {
+    username: string;
+}
+interface Mois_Utilisateur {
+    jour: number;
+    totalDuJourDuMois: number;
 }
 
 export const UserDashboard = () => {
-    const [user, setUser] = useState<InterfaceUser | null>(null);
+    let user:User;
+    const { setUserData, userData } = useUserStore();
+    const { setDechetsData } = useDechetsUtilisateurStore();
+    const { setTotalBrut } = useTotalUtilisateurBrut();
+    const { setDataSemaine } = useSemaineDataUtilisateurStore();
+    const { setMoisData } = useMoisDataUtilisateurStore();
+    const tokenData = useTokenStore(state => state.tokenData);
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
-
-        async function sendTokenToAPI(token: string) {
-            try {
-                // URL de votre API
-                const apiUrl = `${config.api.ip}:${config.api.port}/`;
-
-                // Données à envoyer à l'API
-                const data = {
-                    token: token,
-                };
-
-                const response = await fetch(apiUrl, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(data),
-                });
-
-                if (!response.ok) {
-                    throw new Error('Erreur lors de la requête');
-                }
-
-                const responseData = await response.json();
-                setUser({ user: responseData.user.toString() });
-                console.log(responseData.user); // Cela affichera la réponse de votre API dans la console du navigateur
-            } catch (error) {
-                console.error('Erreur:', error);
-            }
-        }
-
-        if (token && token !== "") {
-            // Envoyer le token à votre API
+        document.title = `Tableau de bord ${userData?.username}`;
+        const token = tokenData.token;
+        if (token && token !== null) {
             sendTokenToAPI(token);
         }
+    }, [tokenData.token, userData?.username]);
 
-        document.title = `Dashboard ${user?.user} - Table de Tri`;
-    }, [user]);
+    async function sendTokenToAPI(token: string) {
+        try {
+            const apiUrl = `${config.api.ip}:${config.api.port}/`;
+            const data = { token };
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                throw new Error('Erreur lors de la requête');
+            }
+
+            const responseData = await response.json();
+            console.log(responseData.user);
+            user =  { username: responseData.user };
+            console.log(user);
+            setUserData(user);
+            const dechetsData = {
+                emballage: parseFloat(responseData.resultat.emballage),
+                pain: parseFloat(responseData.resultat.pain),
+                alimentaire: parseFloat(responseData.resultat.alimentaire),
+            };
+            setDechetsData(dechetsData);
+
+            const totalBrutData = {
+                totalJour: parseFloat(responseData.general.total_jour),
+                totalMois: parseFloat(responseData.mois.total_mois),
+                totalAnnee: parseFloat(responseData.annee[0].total_annee),
+                total: parseFloat(responseData.depuis_creation.total_creation),
+            };
+            setTotalBrut(totalBrutData);
+
+            const semaineActuelleData: Semaine_Utilisateur[] = [{
+                jour: responseData.semaine_actuelle.jour,
+                totalJournalier: parseFloat(responseData.semaine_actuelle.total_journalier),
+            }];
+            setDataSemaine(semaineActuelleData);
+
+            const moisActuelData: Mois_Utilisateur[] = [{
+                jour: responseData.jours_dans_le_mois.jour_du_mois,
+                totalDuJourDuMois: parseFloat(responseData.jours_dans_le_mois.total_dujour_dumois),
+            }];
+            setMoisData(moisActuelData);
+
+            console.log('Données mises à jour :', responseData);
+        } catch (error) {
+            console.error('Erreur :', error);
+        }
+    }
+
 
     return (
         <>
-            <Stack
-                padding={5}
-                spacing={4}
-                direction={"row"}
-                useFlexGap
-                flexWrap={"wrap"}
-                justifyContent="center"
-                alignItems="center"
-            >
-                <Card sx={{ width: "90%" }}>
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="div">
-                            Bienvenue {user?.user}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Ci-dessous, vous pourrez trouver toutes vos données concernant la
-                            table de tri.
-                        </Typography>
-                    </CardContent>
-                </Card>
-            </Stack>
-            <Stack
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-                spacing={2}
-                width={"fit-content"}
-                useFlexGap
-                flexWrap={"wrap"}
-            >
+            <UserDashboardCard/>
+            <Stack direction="row" justifyContent="center" alignItems="center" spacing={2} width={'fit-content'} useFlexGap flexWrap={'wrap'}>
                 <Pie_Chart />
                 <Bar_Chart />
                 <Line_Chart />

@@ -1,14 +1,14 @@
 import * as React from 'react';
 import {Card, CardContent, CardHeader, colors, Stack} from "@mui/material";
 import {LineChart} from "@mui/x-charts";
-import {useMoisDataStore, useMoisDataUtilisateurStore, useSemaineDataStore} from "../helpers/GlobalDataStore";
+import {useMoisDataStore, useSemaineDataStore} from "../helpers/GlobalDataStore";
 interface DataMois {
     jour_du_mois: number;
     total_dujour_dumois: number;
 }
 
-export default function Line_Chart() {
-    const { moisData } = useMoisDataUtilisateurStore();
+export default function Line_Chart_General() {
+    const { moisData } = useMoisDataStore();
 
     // Données de votre store
     const rawData = moisData;

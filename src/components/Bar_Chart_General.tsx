@@ -1,25 +1,20 @@
-// Dans Bar_Chart.tsx
+// Dans Bar_Chart_General.tsx
 import * as React from 'react';
-import { Card, CardContent, CardHeader, Stack } from "@mui/material";
+import { Card, CardContent, Stack } from "@mui/material";
 import { BarChart } from "@mui/x-charts";
-import {useSemaineDataStore, useSemaineDataUtilisateurStore} from "../helpers/GlobalDataStore";
+import { useSemaineDataStore } from "../helpers/GlobalDataStore";
 
-interface DataSemaine {
-    jour: string;
-    total_journalier: number;
-}
-
-export default function Bar_Chart() {
-    const { semaineData } = useSemaineDataUtilisateurStore();
+export default function Bar_Chart_General() {
+    const { semaineData } = useSemaineDataStore();
 
     // Données de votre store
     const rawData = semaineData;
 
     const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-    // Traitement des données pour inclure les jours manquants avec une valeur de 0
-    const processedData: DataSemaine[] = daysOfWeek.map(day => {
-        const found = Array.isArray(rawData) ? rawData.find(item => item.jour === day) : null;
+    // Traitement des données
+    const processedData = daysOfWeek.map(day => {
+        const found = rawData.find(item => item.jour === day);
         return {
             jour: day,
             total_journalier: found ? found.totalJournalier : 0,

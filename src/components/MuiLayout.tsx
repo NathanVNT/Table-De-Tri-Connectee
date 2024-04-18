@@ -2,7 +2,7 @@ import React from "react";
 import {Card, CardActionArea, CardContent, CardMedia, Stack} from "@mui/material";
 import Typography from "@mui/material/Typography";
 
-const card_img = require("../images/card_home_img.jpg")
+const card_img = require("../images/logo.png")
 export const MuiLayout = () => {
 
 
@@ -11,7 +11,7 @@ export const MuiLayout = () => {
                justifyContent="center"
                alignItems="center">
             <Card sx={{ width: "90%"}}>
-
+                    <img src={card_img} alt={"LOGO"} width={'20%'}/>
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                             Bienvenue sur le site de la table de tri
