@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { Card, CardContent, CardHeader, Stack } from "@mui/material";
 import { BarChart } from "@mui/x-charts";
-import {useSemaineDataStore, useSemaineDataUtilisateurStore} from "../helpers/GlobalDataStore";
+import {useSemaineDataUtilisateurStore} from "../helpers/GlobalDataStore";
 
 interface DataSemaine {
     jour: string;

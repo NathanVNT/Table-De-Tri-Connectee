@@ -1,30 +1,18 @@
 import React, { useEffect } from "react";
 import { Stack } from "@mui/material";
+import { useDechetsStore, useMoisDataStore, useSemaineDataStore, useTotalBrut } from "../helpers/GlobalDataStore";
+import config from "../helpers/ConfAPI";
+import { MuiLayout } from "../components/MuiLayout";
 import Pie_Chart_General from "../components/Pie_Chart_General";
 import Bar_Chart_General from "../components/Bar_Chart_General";
 import Line_Chart_General from "../components/Line_Chart_General";
 import Stats_Brut_General from "../components/Stats_Brut_General";
-import { MuiLayout } from "../components/MuiLayout";
-import { useDechetsStore, useMoisDataStore, useSemaineDataStore, useTotalBrut } from "../helpers/GlobalDataStore";
-import config from "../helpers/ConfAPI";
-import {createOrJoinSocket} from "react-use-websocket/dist/lib/create-or-join";
-
-interface SemaineActuelleItem {
-    jour: string;
-    total_journalier: number;
-}
-
-interface MoisActuelItem {
-    jour_du_mois: number;
-    total_dujour_dumois: number;
-}
 
 export const Home = () => {
     const { setDechetsData } = useDechetsStore();
     const { setTotalBrut } = useTotalBrut();
-    const { setDataSemaine, semaineData } = useSemaineDataStore();
+    const { setDataSemaine } = useSemaineDataStore();
     const { setMoisData } = useMoisDataStore();
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -33,44 +21,29 @@ export const Home = () => {
                 if (response.ok) {
                     const jsonData = await response.json();
 
-                    if (jsonData.resultat && jsonData.resultat.length > 0) {
-                        const pieChartData = jsonData.resultat[0];
-                        const dayBrutData = jsonData.general[0];
-                        const monthBrutData = jsonData.mois[0];
-                        const yearBrutData = jsonData.annee[0];
-                        const totalBrutData = jsonData.depuis_creation[0];
-                        const semaineActuelleData: SemaineActuelleItem[] = jsonData.semaine_actuelle;
-                        const moisActuelJour: MoisActuelItem[] = jsonData.jours_dans_le_mois;
+                    if (jsonData.resultat) {
+                        const { resultat, general, mois, annee, depuis_creation, semaine_actuelle, jours_dans_le_mois } = jsonData;
 
-                        // Convertir les valeurs de total_journalier en nombres
-                        const semaineData = semaineActuelleData.map((item) => ({
-                            jour: item.jour,
-                            totalJournalier: Number(item.total_journalier),
-                        }));
-
-                        // Mettre à jour le state avec les données de la semaine actuelle
-                        setDataSemaine(semaineData);
-                        // Convertir les valeurs de total_dujour_dumois en nombres
-                        const monthData = moisActuelJour.map((item) => ({
-                            jour: item.jour_du_mois,
-                            totalDuJourDuMois: Number(item.total_dujour_dumois),
-                        }));
-                        setMoisData(monthData);
-
-                        // Mettre à jour les données brutes
+                        // Mettre à jour les données dans les stores avec les valeurs correctement formatées
+                        setDechetsData(resultat);
                         setTotalBrut({
-                            totalJour: dayBrutData.total_jour,
-                            totalMois: monthBrutData.total_mois,
-                            totalAnnee: yearBrutData.total_annee,
-                            total: totalBrutData.total_creation,
+                            totalJour: parseFloat(general.total_jour),
+                            totalMois: parseFloat(mois.total_mois),
+                            totalAnnee: parseFloat(annee.total_annee),
+                            total: parseFloat(depuis_creation.total_creation)
                         });
 
-                        // Mettre à jour les données des déchets
-                        setDechetsData({
-                            pain: pieChartData.pain,
-                            alimentaire: pieChartData.alimentaire,
-                            emballage: pieChartData.emballage,
-                        });
+                        // Conversion des données de la semaine actuelle
+                        setDataSemaine([{
+                            jour: semaine_actuelle.jour,
+                            totalJournalier: parseFloat(semaine_actuelle.total_journalier)
+                        }]);
+
+                        // Conversion des données du mois
+                        setMoisData([{
+                            jour: jours_dans_le_mois.jour_du_mois,
+                            totalDuJourDuMois: parseFloat(jours_dans_le_mois.total_dujour_dumois)
+                        }]);
                     } else {
                         console.error('Le tableau "resultat" est vide ou indéfini.');
                     }
