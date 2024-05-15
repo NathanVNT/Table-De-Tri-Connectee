@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import { Route, Routes} from 'react-router-dom';
 import { Home } from './pages/Home';
@@ -12,8 +12,13 @@ import PrivateRoute from './services/PrivateRoute';
 import { useTokenStore } from './helpers/GlobalDataStore';
 import InterseptionBeforeunload from './helpers/InterseptionBeforeunload';
 import Logout from "./pages/Logout";
+// @ts-ignore
+import audio from "./autre/jscience.mp3"
+import Maroilles from "./pages/Maroilles";
+
 export const App = () => {
     InterseptionBeforeunload.overrideBeforeunload();
+
     const tokenData = useTokenStore(state => state.tokenData);
     let isAuthenticate = false;
     if (tokenData.token != null){
@@ -37,6 +42,7 @@ export const App = () => {
                     <Route path="/418" element={<Teapot />} />
                     <Route path="/logout" element={<Logout />}></Route>
                     <Route path="*" element={<PageNotFound />} />
+                    <Route path="/pue" element={<Maroilles/>}/>
                 </Routes>
             </div>
         </>
