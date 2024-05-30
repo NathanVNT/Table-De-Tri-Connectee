@@ -10,10 +10,10 @@ export default function Stats_Brut_General(){
                 <CardContent sx={{textAlign: "left"}}>
                     <h2 style={{textAlign: "center"}}>Poids de déchets jetés</h2>
                     <br/>
-                    <h3>Jours: {totalBrutData?.totalJour}</h3>
-                    <h3>Mois: {totalBrutData?.totalMois}</h3>
-                    <h3>Année: {totalBrutData?.totalAnnee}</h3>
-                    <h3>Depuis l'installation: {totalBrutData?.total}</h3>
+                    <h3>Jours: {totalBrutData?.totalJour} kg</h3>
+                    <h3>Mois: {totalBrutData?.totalMois} kg</h3>
+                    <h3>Année: {totalBrutData?.totalAnnee} kg</h3>
+                    <h3>Depuis l'installation: {totalBrutData?.total} kg</h3>
                 </CardContent>
             </Card>
         </Stack>

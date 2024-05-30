@@ -15,6 +15,7 @@ import Logout from "./pages/Logout";
 // @ts-ignore
 import audio from "./autre/jscience.mp3"
 import Maroilles from "./pages/Maroilles";
+import {ChangePassword} from "./pages/ChangePassword";
 
 export const App = () => {
     InterseptionBeforeunload.overrideBeforeunload();
@@ -43,6 +44,7 @@ export const App = () => {
                     <Route path="/logout" element={<Logout />}></Route>
                     <Route path="*" element={<PageNotFound />} />
                     <Route path="/pue" element={<Maroilles/>}/>
+                    <Route path="/changepassword" element={<ChangePassword/>}/>
                 </Routes>
             </div>
         </>

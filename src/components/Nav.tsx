@@ -12,13 +12,13 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Link } from 'react-router-dom'; // Importer Link depuis React Router
-import { useUserStore } from '../helpers/GlobalDataStore'; // Import du Datastore de l'utilisateur
+import { Link } from 'react-router-dom';
+import { useUserStore } from '../helpers/GlobalDataStore';
 
 const pages = [''];
-const links = ['/logout']; // Utilisez un tableau unique pour stocker les liens
+const links = ['/logout'];
 
-const connected = ['Logout'];
+const connected = ['Logout', 'Modifier mot de passe'];
 const notconnect = ['Login'];
 
 interface Props {
@@ -28,7 +28,7 @@ interface Props {
 const Nav: React.FC<Props> = ({ auth }) => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-    const { userData } = useUserStore(); // Utilisation des données de l'utilisateur depuis le Datastore
+    const { userData } = useUserStore();
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -53,8 +53,8 @@ const Nav: React.FC<Props> = ({ auth }) => {
                     <Typography
                         variant="h6"
                         noWrap
-                        component={Link} // Utilisez Link au lieu de 'a'
-                        to="/" // Définir l'URL de destination
+                        component={Link}
+                        to="/"
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
@@ -92,8 +92,8 @@ const Nav: React.FC<Props> = ({ auth }) => {
                             <Button
                                 key={page}
                                 onClick={handleCloseNavMenu}
-                                component={Link} // Utilisez Link au lieu de 'a'
-                                to={links[index]} // Définir l'URL de destination
+                                component={Link}
+                                to={links[index]}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
                                 {page}
@@ -104,7 +104,7 @@ const Nav: React.FC<Props> = ({ auth }) => {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt={userData?.username.toUpperCase()|| ""} src="/static/images/avatar/2.jpg" />
+                                <Avatar alt={userData?.username.toUpperCase() || ""} src="/static/images/avatar/2.jpg" />
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -125,20 +125,17 @@ const Nav: React.FC<Props> = ({ auth }) => {
                         >
                             {/* Afficher soit le lien de connexion, soit le lien de déconnexion en fonction de l'état de l'authentification */}
                             {userData ? (
-                                <MenuItem onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">
-                                        <Link to="/logout" style={{ textDecoration: 'none' }}>
-                                            {connected}
-                                        </Link>
-                                    </Typography>
-                                </MenuItem>
+                                <>
+                                    <MenuItem component={Link} to="/changepassword" onClick={handleCloseUserMenu} sx={{ textAlign: 'center', width: '100%' }}>
+                                        {connected[1]}
+                                    </MenuItem>
+                                    <MenuItem component={Link} to="/logout" onClick={handleCloseUserMenu} sx={{ textAlign: 'center', width: '100%' }}>
+                                        {connected[0]}
+                                    </MenuItem>
+                                </>
                             ) : (
-                                <MenuItem onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">
-                                        <Link to="/login" style={{ textDecoration: 'none' }}>
-                                            {notconnect}
-                                        </Link>
-                                    </Typography>
+                                <MenuItem component={Link} to="/login" onClick={handleCloseUserMenu} sx={{ textAlign: 'center', width: '100%' }}>
+                                    {notconnect[0]}
                                 </MenuItem>
                             )}
                         </Menu>
