@@ -11,6 +11,9 @@
 # production
 /build
 
+# Conf file
+/src/helpers/ConfAPI.ts
+
 # misc
 .DS_Store
 .env.local
