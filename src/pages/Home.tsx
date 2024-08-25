@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Stack } from "@mui/material";
+import { Stack, Alert } from "@mui/material";
 import { useDechetsStore, useMoisDataStore, useSemaineDataStore, useTotalBrut } from "../helpers/GlobalDataStore";
 import config from "../helpers/ConfAPI";
 import { MuiLayout } from "../components/MuiLayout";
@@ -60,7 +60,13 @@ export const Home = () => {
 
     return (
         <>
+            <Alert severity="error" sx={{ margin: 2 }}>
+            Le site est en mode démo. Les données affichées sont fausses et statiques.
+        </Alert>
             <MuiLayout />
+
+            {/* Message de démo en haut de la page */}
+
 
             <Stack
                 direction="row"

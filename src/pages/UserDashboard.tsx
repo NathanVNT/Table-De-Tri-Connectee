@@ -39,7 +39,7 @@ export const UserDashboard = () => {
     const tokenData = useTokenStore(state => state.tokenData);
 
     useEffect(() => {
-        document.title = `Tableau de bord ${userData?.username}`;
+        document.title = `Tableau de bord DEMO`;
         const token = tokenData.token;
         if (token && token !== null) {
             sendTokenToAPI(token);

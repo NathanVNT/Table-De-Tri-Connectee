@@ -1,32 +1,62 @@
 import * as React from 'react';
-import {Card, CardContent, CardHeader, colors, Stack} from "@mui/material";
-import {LineChart} from "@mui/x-charts";
-import {useMoisDataStore, useMoisDataUtilisateurStore, useSemaineDataStore} from "../helpers/GlobalDataStore";
+import { Card, CardContent, Stack } from "@mui/material";
+import { LineChart } from "@mui/x-charts";
+
 interface DataMois {
     jour_du_mois: number;
     total_dujour_dumois: number;
 }
 
 export default function Line_Chart() {
-    const { moisData } = useMoisDataUtilisateurStore();
+    // Données statiques pour un mois complet (31 jours)
+    const rawData: DataMois[] = [
+        { jour_du_mois: 1, total_dujour_dumois: 5 },
+        { jour_du_mois: 2, total_dujour_dumois: 7 },
+        { jour_du_mois: 3, total_dujour_dumois: 8 },
+        { jour_du_mois: 4, total_dujour_dumois: 4 },
+        { jour_du_mois: 5, total_dujour_dumois: 6 },
+        { jour_du_mois: 6, total_dujour_dumois: 9 },
+        { jour_du_mois: 7, total_dujour_dumois: 2 },
+        { jour_du_mois: 8, total_dujour_dumois: 10 },
+        { jour_du_mois: 9, total_dujour_dumois: 3 },
+        { jour_du_mois: 10, total_dujour_dumois: 4 },
+        { jour_du_mois: 11, total_dujour_dumois: 8 },
+        { jour_du_mois: 12, total_dujour_dumois: 7 },
+        { jour_du_mois: 13, total_dujour_dumois: 6 },
+        { jour_du_mois: 14, total_dujour_dumois: 5 },
+        { jour_du_mois: 15, total_dujour_dumois: 9 },
+        { jour_du_mois: 16, total_dujour_dumois: 4 },
+        { jour_du_mois: 17, total_dujour_dumois: 8 },
+        { jour_du_mois: 18, total_dujour_dumois: 6 },
+        { jour_du_mois: 19, total_dujour_dumois: 7 },
+        { jour_du_mois: 20, total_dujour_dumois: 5 },
+        { jour_du_mois: 21, total_dujour_dumois: 10 },
+        { jour_du_mois: 22, total_dujour_dumois: 4 },
+        { jour_du_mois: 23, total_dujour_dumois: 6 },
+        { jour_du_mois: 24, total_dujour_dumois: 9 },
+        { jour_du_mois: 25, total_dujour_dumois: 8 },
+        { jour_du_mois: 26, total_dujour_dumois: 7 },
+        { jour_du_mois: 27, total_dujour_dumois: 5 },
+        { jour_du_mois: 28, total_dujour_dumois: 6 },
+        { jour_du_mois: 29, total_dujour_dumois: 4 },
+        { jour_du_mois: 30, total_dujour_dumois: 7 },
+        { jour_du_mois: 31, total_dujour_dumois: 5 },
+    ];
 
-    // Données de votre store
-    const rawData = moisData;
+    const daysOfMonth = Array.from({ length: 31 }, (_, i) => i + 1);
 
-    const daysOfWeek = [1, 2, 3, 4, 5, 6, 7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
-
-    // Traitement des données pour inclure les jours manquants avec une valeur de 0
-    const processedData: { jour: number; total_journalier: number }[] = daysOfWeek.map(day => {
-        const found = Array.isArray(rawData) ? rawData.find(item => item.jour === day) : null;
+    // Traitement des données pour chaque jour du mois
+    const processedData = daysOfMonth.map(day => {
+        const found = rawData.find(item => item.jour_du_mois === day);
         return {
             jour: day,
-            total_journalier: found ? found.totalDuJourDuMois : 0,
+            total_journalier: found ? found.total_dujour_dumois : 0,
         };
     });
 
     return (
         <Stack>
-            <Card sx={{ width: '100%'}}>
+            <Card sx={{ width: '100%' }}>
                 <CardContent>
                     <h2>Évolution des déchets jetés</h2>
                     <LineChart

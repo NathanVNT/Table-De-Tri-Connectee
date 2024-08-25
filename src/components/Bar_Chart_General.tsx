@@ -1,29 +1,38 @@
-// Dans Bar_Chart_General.tsx
+// Dans Bar_Chart.tsx
 import * as React from 'react';
 import { Card, CardContent, Stack } from "@mui/material";
 import { BarChart } from "@mui/x-charts";
-import { useSemaineDataStore } from "../helpers/GlobalDataStore";
+
+interface DataSemaine {
+    jour: string;
+    total_journalier: number;
+}
 
 export default function Bar_Chart_General() {
-    const { semaineData } = useSemaineDataStore();
+    // Données statiques à la place de semaineData
+    const rawData: DataSemaine[] = [
+        { jour: 'Monday', total_journalier: 200 },
+        { jour: 'Tuesday', total_journalier: 145 },
+        { jour: 'Wednesday', total_journalier: 98 },
+        { jour: 'Thursday', total_journalier: 250 },
+        { jour: 'Friday', total_journalier: 115 },
 
-    // Données de votre store
-    const rawData = semaineData;
+    ];
 
-    const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
-    // Traitement des données
-    const processedData = daysOfWeek.map(day => {
-        const found = rawData.find(item => item.jour === day);
+    // Traitement des données pour inclure les jours manquants avec une valeur de 0
+    const processedData: DataSemaine[] = daysOfWeek.map(day => {
+        const found = Array.isArray(rawData) ? rawData.find(item => item.jour === day) : null;
         return {
             jour: day,
-            total_journalier: found ? found.totalJournalier : 0,
+            total_journalier: found ? found.total_journalier : 0,
         };
     });
 
     return (
         <Stack>
-            <Card sx={{ maxWidth: '100%'}}>
+            <Card sx={{ maxWidth: '100%' }}>
                 <CardContent>
                     <h2>Déchets jetés cette semaine</h2>
                     <BarChart

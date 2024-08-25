@@ -10,10 +10,10 @@ export default function Stats_Brut(){
                 <CardContent sx={{textAlign: "left"}}>
                     <h2 style={{textAlign: "center"}}>Poids de déchets jetés</h2>
                     <br/>
-                    <h3>Jours: {totalBrutData?.totalJour} kg</h3>
-                    <h3>Mois: {totalBrutData?.totalMois} kg</h3>
-                    <h3>Année: {totalBrutData?.totalAnnee} kg</h3>
-                    <h3>Depuis l'installation: {totalBrutData?.total} kg</h3>
+                    <h3>Jours: 5 kg</h3>
+                    <h3>Mois: 35 kg</h3>
+                    <h3>Année: 400 kg</h3>
+                    <h3>Depuis l'installation: 4 000 kg</h3>
                 </CardContent>
             </Card>
         </Stack>

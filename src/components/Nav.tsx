@@ -18,7 +18,7 @@ import { useUserStore } from '../helpers/GlobalDataStore';
 const pages = [''];
 const links = ['/logout'];
 
-const connected = ['Logout', 'Modifier mot de passe'];
+const connected = ['Logout'];
 const notconnect = ['Login'];
 
 interface Props {
@@ -124,11 +124,8 @@ const Nav: React.FC<Props> = ({ auth }) => {
                             onClose={handleCloseUserMenu}
                         >
                             {/* Afficher soit le lien de connexion, soit le lien de déconnexion en fonction de l'état de l'authentification */}
-                            {userData ? (
+                            {auth ? (
                                 <>
-                                    <MenuItem component={Link} to="/changepassword" onClick={handleCloseUserMenu} sx={{ textAlign: 'center', width: '100%' }}>
-                                        {connected[1]}
-                                    </MenuItem>
                                     <MenuItem component={Link} to="/logout" onClick={handleCloseUserMenu} sx={{ textAlign: 'center', width: '100%' }}>
                                         {connected[0]}
                                     </MenuItem>
